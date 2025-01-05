@@ -12,11 +12,14 @@ type GeneratorState = {
   addGenerator: () => void;
   deleteGenerator: (id: number) => void;
   updateKVA: (id: number, kva: number) => void;
+  load: number;
+  updateLoad: (newLoad: number) => void;
 };
 
 const useGeneratorStore = create<GeneratorState>((set): GeneratorState => ({
   generators: [],
   nextId: 1,
+  load: 0,
   addGenerator: (): void =>
     set((state) => ({
       generators: [
@@ -35,6 +38,7 @@ const useGeneratorStore = create<GeneratorState>((set): GeneratorState => ({
         generator.id === id ? { ...generator, kva } : generator
       ),
     })),
+  updateLoad: (newLoad: number): void => set(() => ({ load: newLoad })),
 }));
 
 export default useGeneratorStore;
