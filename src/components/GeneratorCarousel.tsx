@@ -1,32 +1,15 @@
-// GeneratorCarousel.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import GeneratorCard from './GeneratorCard';
+import useGeneratorStore from '../store';
 
 const GeneratorCarousel: React.FC = () => {
-  const [generators, setGenerators] = useState<{ id: number; name: string; kva: number }[]>([]);
-  const [nextId, setNextId] = useState(1);
-
-  const addGenerator = () => {
-    setGenerators([
-      ...generators,
-      { id: nextId, name: `Generator ${nextId}`, kva: 0 },
-    ]);
-    setNextId(nextId + 1);
-  };
-
-  const deleteGenerator = (id: number) => {
-    setGenerators(generators.filter((generator) => generator.id !== id));
-  };
+  const generators = useGeneratorStore((state) => state.generators);
+  const addGenerator = useGeneratorStore((state) => state.addGenerator);
 
   return (
     <div className="flex flex-wrap justify-center">
       {generators.map((generator) => (
-        <GeneratorCard
-          key={generator.id}
-          name={generator.name}
-          initialKVA={generator.kva}
-          onDelete={() => deleteGenerator(generator.id)}
-        />
+        <GeneratorCard key={generator.id} id={generator.id} />
       ))}
       <div
         onClick={addGenerator}
